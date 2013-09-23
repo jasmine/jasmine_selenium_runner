@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Rajan Agaskar", "Gregg Van Hove" ]
   spec.email         = ["rajan@pivotallabs.com", 'gvanhove@pivotallabs.com']
   spec.description      = %q{Run your jasmine tests in a real live browser!}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.summary       = %q{Run your jasmine tests in a real live browser!}
   spec.homepage         = "http://pivotal.github.com/jasmine/"
   spec.license       = "MIT"
 
