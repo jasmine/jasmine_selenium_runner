@@ -9,12 +9,13 @@ describe Jasmine::Runners::Selenium do
     Dir.mktmpdir do |dir|
       begin
         Dir.chdir dir
+        jasmine_gem_source = ENV["TRAVIS"] ? "github: 'pivotal/jasmine'" : ":path => '#{File.expand_path(File.join(original_dir, '..', 'jasmine-gem'))}'"
         File.open(File.join(dir, 'Gemfile'), 'w') do |file|
           file.write <<-GEMFILE
 source 'https://rubygems.org'
 gem 'jasmine_selenium_runner', :path => '#{original_dir}'
-gem 'jasmine', :path => '#{File.expand_path(File.join(original_dir, '..', 'jasmine-gem'))}'
-          GEMFILE
+gem 'jasmine', #{jasmine_gem_source}
+GEMFILE
         end
         Bundler.with_clean_env do
           `bundle`
