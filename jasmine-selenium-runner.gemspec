@@ -23,4 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_dependency 'jasmine', '~> 2.0.0.alpha'
   spec.add_dependency 'selenium-webdriver', '~> 2.35'
+  spec.add_dependency 'sauce-connect'
 end
