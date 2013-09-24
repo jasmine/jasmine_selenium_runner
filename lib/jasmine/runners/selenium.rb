@@ -3,9 +3,10 @@ require 'selenium-webdriver'
 module Jasmine
   module Runners
     class Selenium
-      def initialize(formatter, config)
+      def initialize(formatter, jasmine_server_url, config)
         @formatter = formatter
         @config = config
+        @jasmine_server_url = jasmine_server_url
         browser = config.browser
         # @driver = if config.webdriver
                     # config.webdriver
@@ -19,7 +20,7 @@ module Jasmine
       end
 
       def run
-        driver.navigate.to "#{config.host}:#{config.port}/"
+        driver.navigate.to jasmine_server_url
         ensure_connection_established
         wait_for_suites_to_finish_running
 
@@ -37,7 +38,7 @@ module Jasmine
       end
 
       private
-      attr_reader :formatter, :config, :driver, :results
+      attr_reader :formatter, :config, :driver, :results, :jasmine_server_url
 
       def started?
         @driver.execute_script "return jsApiReporter && jsApiReporter.started"
