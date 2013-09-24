@@ -27,8 +27,6 @@ module Jasmine
         @results = get_results
         formatter.format(results)
         formatter.done
-
-        puts "Run with Selenium"
       ensure
         driver.quit
       end
