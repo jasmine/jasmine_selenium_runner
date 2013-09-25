@@ -46,8 +46,8 @@ GEMFILE
         Bundler.with_clean_env do
           `bundle`
           `bundle exec jasmine init`
-        File.open(File.join(dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml'), 'w') do |file|
-          file.write <<-GEMFILE
+          File.open(File.join(dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml'), 'w') do |file|
+            file.write <<-YAML
 ---
 use_sauce: true
 browser: "internet explorer"
@@ -60,11 +60,12 @@ sauce:
   tags:
     - #{ENV['TRAVIS_RUBY_VERSION'] || RUBY_VERSION}
     - CI
-  tunnel_identifier: #{ENV['TRAVIS_JOB_NUMBER'] ? "#{ENV['TRAVIS_JOB_NUMBER']}" : nil}
+  tunnel_identifier: #{ENV['TRAVIS_JOB_NUMBER'] ? %Q("#{ENV['TRAVIS_JOB_NUMBER']}") : nil}
   os: "Windows 8"
   browser_version: 10
-GEMFILE
-        end
+YAML
+          end
+
           FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_ie_spec.js'), File.join(dir, 'spec', 'javascripts'))
 
           test_start_time = Time.now.to_i
