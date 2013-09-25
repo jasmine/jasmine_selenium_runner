@@ -31,11 +31,11 @@ module Jasmine
       attr_reader :formatter, :config, :driver, :results, :jasmine_server_url, :result_batch_size
 
       def started?
-        @driver.execute_script "return jsApiReporter && jsApiReporter.started"
+        driver.execute_script "return jsApiReporter && jsApiReporter.started"
       end
 
       def finished?
-        @driver.execute_script "return jsApiReporter && jsApiReporter.finished"
+        driver.execute_script "return jsApiReporter && jsApiReporter.finished"
       end
 
       def ensure_connection_established

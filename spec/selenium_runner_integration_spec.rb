@@ -49,11 +49,22 @@ GEMFILE
           file.write <<-GEMFILE
 ---
 use_sauce: true
-sauce_username: #{ENV['SAUCE_USERNAME']}
-sauce_access_key: #{ENV['SAUCE_ACCESS_KEY']}
+browser: "internet explorer"
+result_batch_size: 25
+sauce:
+  name: "jasmine_selenium_runner <%= Time.now.to_s %>"
+  username: #{ENV['SAUCE_USERNAME']}
+  access_key: #{ENV['SAUCE_ACCESS_KEY']}
+  build: <%= ENV['TRAVIS_BUILD_NUMBER'] || 'Ran locally' %>
+  tags:
+    - <%= ENV['TRAVIS_RUBY_VERSION'] || RUBY_VERSION %>
+    - CI
+  tunnel_identifier: <%= ENV['TRAVIS_JOB_NUMBER'] %>
+  os: "Windows 8"
+  browser_version: 10
 GEMFILE
         end
-          FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), File.join(dir, 'spec', 'javascripts'))
+          FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_ie_spec.js'), File.join(dir, 'spec', 'javascripts'))
 
           test_start_time = Time.now.to_i
           uri = URI.parse "https://saucelabs.com/rest/v1/#{ENV['SAUCE_USERNAME']}/jobs?from=#{test_start_time}"

@@ -1,6 +1,10 @@
 before_script:
-  - "sh -e /etc/init.d/xvfb start"
-script: "DISPLAY=:99.0 bundle exec rake"
-
+- sh -e /etc/init.d/xvfb start
+- curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+script: DISPLAY=:99.0 bundle exec rake
 rvm:
-  - "2.0.0"
+- 2.0.0
+env:
+  global:
+  - secure: i8arxYVwMt/vp8a5RugpE+edkCg1G+wQ1WdCbdiKPhDZEcMh6f9vETvcsY9W94xY7yTBNSrZ+jNkz5ZQrGfiq1HllKxSjZBXv0pJ+wyxuFHl7hSib1OCzEImk0lHVryX7A7iO4u1GzZ+jmiVyKL7uEjD6CokphOpwnYpBln8jlg=
+  - secure: UWmQafzVbXw81vu+V8FJdu0ArVSpT/Ya+iFOVksDoatxyuJzS+BRXOjXuOL1mEo6CwpIhxo5Fs+8ALC/K8fTvSRos4hsRdkb38Gddyj5M7fSeICzeBMejUcu+4b1QO98AnN6uRqbFtNgm3c2qx448tLIp4sKKmGNro6lAD+Txew=
