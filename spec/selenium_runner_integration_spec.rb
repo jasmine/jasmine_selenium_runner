@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'tmpdir'
 require 'jasmine'
+require 'json'
 require 'net/http'
 
 describe Jasmine::Runners::Selenium do
@@ -55,11 +56,11 @@ sauce:
   name: "jasmine_selenium_runner <%= Time.now.to_s %>"
   username: #{ENV['SAUCE_USERNAME']}
   access_key: #{ENV['SAUCE_ACCESS_KEY']}
-  build: <%= ENV['TRAVIS_BUILD_NUMBER'] || 'Ran locally' %>
+  build: #{ENV['TRAVIS_BUILD_NUMBER'] || 'Ran locally'}
   tags:
-    - <%= ENV['TRAVIS_RUBY_VERSION'] || RUBY_VERSION %>
+    - #{ENV['TRAVIS_RUBY_VERSION'] || RUBY_VERSION}
     - CI
-  tunnel_identifier: "<%= ENV['TRAVIS_JOB_NUMBER'] %>"
+  tunnel_identifier: #{ENV['TRAVIS_JOB_NUMBER'] ? "#{ENV['TRAVIS_JOB_NUMBER']}" : nil}
   os: "Windows 8"
   browser_version: 10
 GEMFILE
