@@ -8,7 +8,6 @@ module Jasmine
         @jasmine_server_url = jasmine_server_url
         @driver = driver
         @result_batch_size = result_batch_size
-        @results = []
       end
 
       def run
@@ -16,19 +15,14 @@ module Jasmine
         ensure_connection_established
         wait_for_suites_to_finish_running
 
-        @results = get_results
-        formatter.format(results)
+        formatter.format(get_results)
         formatter.done
       ensure
         driver.quit
       end
 
-      def succeeded?
-        results.detect(&:failed?).nil?
-      end
-
       private
-      attr_reader :formatter, :config, :driver, :results, :jasmine_server_url, :result_batch_size
+      attr_reader :formatter, :config, :driver, :jasmine_server_url, :result_batch_size
 
       def started?
         driver.execute_script "return jsApiReporter && jsApiReporter.started"
