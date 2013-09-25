@@ -59,7 +59,7 @@ sauce:
   tags:
     - <%= ENV['TRAVIS_RUBY_VERSION'] || RUBY_VERSION %>
     - CI
-  tunnel_identifier: <%= ENV['TRAVIS_JOB_NUMBER'] %>
+  tunnel_identifier: "<%= ENV['TRAVIS_JOB_NUMBER'] %>"
   os: "Windows 8"
   browser_version: 10
 GEMFILE
