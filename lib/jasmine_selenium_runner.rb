@@ -10,7 +10,7 @@ Jasmine.configure do |config|
 
   config.runner = lambda { |formatter, jasmine_server_url|
     webdriver = nil
-    browser = runner_config.fetch('browser', 'firefox')
+    browser = runner_config['browser'] || 'firefox'
 
     if runner_config['use_sauce']
       sauce_config = runner_config['sauce']
@@ -51,6 +51,6 @@ Jasmine.configure do |config|
     # ::Selenium::WebDriver.for :remote, :url => selenium_server, :desired_capabilities => browser.to_sym
     # else
 
-    Jasmine::Runners::Selenium.new(formatter, jasmine_server_url, webdriver, runner_config.fetch('batch_config_size', 50))
+    Jasmine::Runners::Selenium.new(formatter, jasmine_server_url, webdriver, runner_config['batch_config_size'] || 50)
   }
 end
