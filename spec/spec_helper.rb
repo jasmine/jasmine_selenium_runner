@@ -8,3 +8,15 @@ RSpec.configure do |config|
     end
   end
 end
+
+def in_temp_dir
+  project_root = File.expand_path(File.join('..', '..'), __FILE__)
+  Dir.mktmpdir do |tmp_dir|
+    begin
+      Dir.chdir tmp_dir
+      yield tmp_dir, project_root
+    ensure
+      Dir.chdir project_root
+    end
+  end
+end

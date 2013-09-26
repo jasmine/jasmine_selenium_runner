@@ -21,9 +21,10 @@ GEMFILE
         Bundler.with_clean_env do
           `bundle`
           `bundle exec jasmine init`
+          `bundle exec jasmine examples`
           FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), File.join(dir, 'spec', 'javascripts'))
           ci_output = `bundle exec rake -E "require 'jasmine_selenium_runner'" --trace jasmine:ci`
-          ci_output.should =~ (/[1-9][0-9]* specs, 0 failures/)
+          ci_output.should =~ /[1-9][0-9]* specs, 0 failures/
         end
       ensure
         Dir.chdir project_root
@@ -85,6 +86,38 @@ YAML
         end
       ensure
         Dir.chdir project_root
+      end
+    end
+  end
+
+  def bundle_install
+    tries_remaining = 3
+    while tries_remaining > 0
+      puts `NOKOGIRI_USE_SYSTEM_LIBRARIES=true bundle install --path vendor;`
+      if $?.success?
+        tries_remaining = 0
+      else
+        tries_remaining -= 1
+        puts "\n\nBundle failed, trying #{tries_remaining} more times\n\n"
+      end
+    end
+  end
+
+  it "works with the rails asset pipeline" do
+    in_temp_dir do |dir, project_root|
+      `rails new rails-test`
+      Dir.chdir File.join(dir, 'rails-test')
+      File.open('Gemfile', 'a') { |f|
+        f.puts "gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'"
+        f.puts "gem 'jasmine_selenium_runner', :path => '#{project_root}'"
+      }
+
+      Bundler.with_clean_env do
+        bundle_install
+        `bundle exec rails g jasmine:install`
+        `bundle exec rails g jasmine:examples`
+        output = `bundle exec rake jasmine:ci`
+        output.should =~ /[1-9]\d* specs, 0 failures/
       end
     end
   end
