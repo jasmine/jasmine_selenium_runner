@@ -47,6 +47,7 @@ GEMFILE
         Bundler.with_clean_env do
           `bundle`
           `bundle exec jasmine init`
+          `bundle exec jasmine examples`
           File.open(File.join(dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml'), 'w') do |file|
             file.write <<-YAML
 ---
