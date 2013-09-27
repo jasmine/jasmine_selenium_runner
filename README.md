@@ -1,13 +1,24 @@
-jasmine_selenium_runner
-=======================
+# Jasmine Selenium Runner [![Build Status](https://travis-ci.org/jasmine/jasmine_selenium_runner.png?branch=master)](https://travis-ci.org/jasmine/jasmine_selenium_runner)
 
-Runner for building Jasmine builds in Selenium (permitting automatic cross-browser testing). 
+Runner for building Jasmine builds in Selenium (permitting automatic cross-browser testing).
 After require-ing, jasmine_selenium_runner automatically sets itself up as the jasmine:ci runner.
+
+## Installation
+
+Add this line to your application's Gemfile (to test & dev groups):
+
+    gem 'jasmine_selenium_runner'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install jasmine_selenium_runner
 
 ### Basic Usage:
 
-- Add jasmine_selenium_runner to your Gemfile (to test & dev groups)
-- `bundle`
 - In rails, simply `run rake jasmine:ci`, tests should run in firefox.
 - Outside of rails, you may need to add `require 'jasmine_selenium_runner'` to your Rakefile after jasmine is required.
 
@@ -74,3 +85,12 @@ which you'll want for SAUCE_USERNAME and SAUCE_ACCESS_KEY):
         - JASMINE_BROWSER="chrome"
         - SAUCE_OS="Linux"
         - SAUCE_BROWSER_VERSION=''
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
