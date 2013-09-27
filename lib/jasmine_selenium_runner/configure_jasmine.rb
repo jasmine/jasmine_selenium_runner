@@ -41,16 +41,16 @@ module JasmineSeleniumRunner
           elsif runner_config['selenium_server']
             webdriver = Selenium::WebDriver.for :remote, :url => runner_config['selenium_server'], :desired_capabilities => browser.to_sym
           else
-            webdriver = Selenium::WebDriver.for(browser.to_sym, {})
-          end
 
-          #TODO: re-add firefox firebug profile option
-          # if browser == 'firefox-firebug'
-          # require File.join(File.dirname(__FILE__), 'firebug/firebug')
-          # (profile = Selenium::WebDriver::Firefox::Profile.new)
-          # profile.enable_firebug
-          # {:profile => profile}
-          # else
+            selenium_options = {}
+            if browser == 'firefox-firebug'
+              require File.join(File.dirname(__FILE__), 'firebug/firebug')
+              (profile = Selenium::WebDriver::Firefox::Profile.new)
+              profile.enable_firebug
+              selenium_options[:profile] = profile
+            end
+            webdriver = Selenium::WebDriver.for(browser.to_sym, selenium_options)
+          end
 
           Jasmine::Runners::Selenium.new(formatter, jasmine_server_url, webdriver, runner_config['batch_config_size'] || 50)
         }

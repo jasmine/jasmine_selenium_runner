@@ -35,4 +35,18 @@ describe "Configuring jasmine" do
       fake_config.runner.call(nil, nil)
     end
   end
+
+  context "when the user wants firebug installed" do
+    before do
+      stub_config_file 'browser' => 'firefox-firebug'
+      configure
+    end
+
+    it "should create a firebug profile and pass that to WebDriver" do
+      profile = double(:profile, enable_firebug: nil)
+      Selenium::WebDriver::Firefox::Profile.stub(:new).and_return(profile)
+      Selenium::WebDriver.should_receive(:for).with('firefox-firebug'.to_sym, {profile: profile})
+      fake_config.runner.call(nil, nil)
+    end
+  end
 end
