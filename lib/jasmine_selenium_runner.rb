@@ -12,4 +12,5 @@ if safe_gem_check('rails', '>= 3')
   require File.join('jasmine_selenium_runner', 'railtie')
 else
   require File.join('jasmine_selenium_runner', 'configure_jasmine.rb')
+  JasmineSeleniumRunner::ConfigureJasmine.install_selenium_runner
 end

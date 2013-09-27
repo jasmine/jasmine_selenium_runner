@@ -86,6 +86,14 @@ which you'll want for SAUCE_USERNAME and SAUCE_ACCESS_KEY):
         - SAUCE_OS="Linux"
         - SAUCE_BROWSER_VERSION=''
 
+### Using with a custom selenium server
+
+Create a jasmine_selenium_runner.yml in spec/javascripts/support/ with the following content:
+
+    ---
+    selenium_server: <full url to selenium server>
+    browser: <%= ENV['JASMINE_BROWSER'] %>
+
 ## Contributing
 
 1. Fork it

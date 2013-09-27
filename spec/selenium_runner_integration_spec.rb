@@ -117,6 +117,7 @@ YAML
         bundle_install
         `bundle exec rails g jasmine:install`
         `bundle exec rails g jasmine:examples`
+        FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), File.join(dir, 'rails-test', 'spec', 'javascripts'))
         output = `bundle exec rake jasmine:ci`
         output.should =~ /[1-9]\d* specs, 0 failures/
       end
