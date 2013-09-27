@@ -94,6 +94,28 @@ Create a jasmine_selenium_runner.yml in spec/javascripts/support/ with the follo
     selenium_server: <full url to selenium server>
     browser: <%= ENV['JASMINE_BROWSER'] %>
 
+### Customizing the browser profile
+
+Make a class that extends `JasmineSeleniumRunner::ConfigureJasmine` and override the `selenium_options` method
+
+    class MyConfigurer < JasmineSeleniumRunner::ConfigureJasmine
+      def selenium_options
+        options = super
+        if browser =~ /^firefox/
+          options = super
+          options[:profile] ||= Selenium::WebDriver::Firefox::Profile.new
+          options[:profile]['dom.max_chrome_script_run_time'] = 20
+          options[:profile]['dom.max_script_run_time'] = 20
+        end
+        options
+      end
+    end
+
+Create a jasmine_selenium_runner.yml in spec/javascripts/support/ with the following content:
+
+    ---
+    configuration_class: MyConfigurer
+
 ## Contributing
 
 1. Fork it

@@ -25,4 +25,48 @@ describe "Configuring jasmine" do
       configurer.make_runner
     end
   end
+
+  context "specifying a custom configurer" do
+    class FakeConfig
+      attr_accessor :port, :runner
+    end
+
+    def configure
+      Dir.stub(:pwd).and_return(working_dir)
+      Jasmine.stub(:configure).and_yield(fake_config)
+      JasmineSeleniumRunner::ConfigureJasmine.install_selenium_runner
+    end
+
+    def stub_config_file(config_obj)
+      config_path = File.join(working_dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml')
+      File.stub(:exist?).and_call_original
+      File.stub(:exist?).with(config_path).and_return(true)
+      File.stub(:read).and_call_original
+      File.stub(:read).with(config_path).and_return(YAML.dump(config_obj))
+    end
+
+    let(:working_dir) { 'hi' }
+    let(:fake_config) { FakeConfig.new }
+
+    module Foo
+      class Bar
+        def initialize(formatter, jasmine_server_url, config)
+        end
+
+        def make_runner
+        end
+      end
+    end
+
+    before do
+      stub_config_file 'configuration_class' => 'Foo::Bar'
+      configure
+    end
+
+    it "should use the custom class" do
+      Selenium::WebDriver.should_not_receive(:for)
+      Foo::Bar.any_instance.should_receive(:make_runner)
+      fake_config.runner.call(nil, nil)
+    end
+  end
 end

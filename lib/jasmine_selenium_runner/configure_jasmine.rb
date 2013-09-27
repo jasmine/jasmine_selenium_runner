@@ -10,7 +10,12 @@ module JasmineSeleniumRunner
         config.port = 5555 if runner_config['use_sauce'] #Sauce only proxies certain ports
 
         config.runner = lambda { |formatter, jasmine_server_url|
-          new(formatter, jasmine_server_url, runner_config).make_runner
+          configuration_class = if runner_config['configuration_class']
+                                  const_get(runner_config['configuration_class'])
+                                else
+                                  self
+                                end
+          configuration_class.new(formatter, jasmine_server_url, runner_config).make_runner
         }
       end
     end
@@ -76,14 +81,18 @@ module JasmineSeleniumRunner
     end
 
     def local_webdriver
-      selenium_options = {}
+      Selenium::WebDriver.for(browser.to_sym, selenium_options)
+    end
+
+    def selenium_options
       if browser == 'firefox-firebug'
         require File.join(File.dirname(__FILE__), 'firebug/firebug')
-        (profile = Selenium::WebDriver::Firefox::Profile.new)
+        profile = Selenium::WebDriver::Firefox::Profile.new
         profile.enable_firebug
-        selenium_options[:profile] = profile
+        { :profile => profile }
+      else
+        {}
       end
-      Selenium::WebDriver.for(browser.to_sym, selenium_options)
     end
 
     protected
