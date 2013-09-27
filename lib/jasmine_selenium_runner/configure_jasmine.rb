@@ -7,7 +7,7 @@ module JasmineSeleniumRunner
     def self.install_selenium_runner
       Jasmine.configure do |config|
         runner_config = load_config
-        config.port = 5555 if runner_config['use_sauce'] #Sauce only proxies certain ports
+        config.ci_port = 5555 if runner_config['use_sauce'] #Sauce only proxies certain ports
 
         config.runner = lambda { |formatter, jasmine_server_url|
           configuration_class = if runner_config['configuration_class']
