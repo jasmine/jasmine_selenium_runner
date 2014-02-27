@@ -5,4 +5,4 @@ namespace :jasmine_selenium_runner do
   end
 end
 
-task 'jasmine:require' => ['jasmine_selenium_runner:setup']
+task 'jasmine:configure_plugins' => ['jasmine_selenium_runner:setup']
