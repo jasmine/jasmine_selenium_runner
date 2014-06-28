@@ -21,7 +21,27 @@ GEMFILE
         `bundle exec jasmine examples`
         FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), File.join(dir, 'spec', 'javascripts'))
         ci_output = `bundle exec rake -E "require 'jasmine_selenium_runner'" --trace jasmine:ci`
-        ci_output.should =~ /[1-9][0-9]* specs, 0 failures/
+        expect(ci_output).to match(/[1-9][0-9]* specs, 0 failures/)
+      end
+    end
+  end
+
+  it "allows rake jasmine:ci to retrieve results even though Selenium can't transmit back circular JS objects" do
+    in_temp_dir do |dir, project_root|
+      File.open(File.join(dir, 'Gemfile'), 'w') do |file|
+        file.write <<-GEMFILE
+source 'https://rubygems.org'
+gem 'jasmine_selenium_runner', :path => '#{project_root}'
+gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
+GEMFILE
+      end
+      Bundler.with_clean_env do
+        `bundle`
+        `bundle exec jasmine init`
+        `bundle exec jasmine examples`
+        FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'contains_circular_references_spec.js'), File.join(dir, 'spec', 'javascripts'))
+        ci_output = `bundle exec rake -E "require 'jasmine_selenium_runner'" --trace jasmine:ci`
+        expect(ci_output).to match(/[1-9][0-9]* specs, 1 failure/)
       end
     end
   end
@@ -68,13 +88,13 @@ YAML
         before = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
           http.request(job_list_request)
         end
-        JSON.parse(before.body).should == []
+        expect(JSON.parse(before.body)).to be_empty
         ci_output = %x{bundle exec rake -E "require 'jasmine_selenium_runner'" --trace jasmine:ci}
-        ci_output.should =~ (/[1-9][0-9]* specs, 0 failures/)
+        expect(ci_output).to match(/[1-9][0-9]* specs, 0 failures/)
         after = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
           http.request(job_list_request)
         end
-        JSON.parse(after.body).should_not be_empty
+        expect(JSON.parse(after.body)).not_to be_empty
       end
     end
   end
@@ -107,7 +127,7 @@ YAML
         `bundle exec rails g jasmine:examples`
         FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), File.join(dir, 'rails-test', 'spec', 'javascripts'))
         output = `bundle exec rake jasmine:ci`
-        output.should =~ /[1-9]\d* specs, 0 failures/
+        expect(output).to match(/[1-9]\d* specs, 0 failures/)
       end
     end
   end

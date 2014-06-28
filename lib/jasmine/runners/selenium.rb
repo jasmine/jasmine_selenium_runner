@@ -52,14 +52,32 @@ module Jasmine
         spec_results = []
 
         loop do
-          slice = driver.execute_script("return jsApiReporter.specResults(#{index}, #{result_batch_size})")
-          spec_results << Jasmine::Result.map_raw_results(slice)
+          slice = results_without_circular_references(index)
+          spec_results << slice
           index += result_batch_size
           break if slice.size < result_batch_size
         end
         spec_results.flatten
       end
 
+      def results_without_circular_references(starting_index)
+        slice = driver.execute_script(<<-JS)
+          var specResults = jsApiReporter.specResults(#{starting_index}, #{result_batch_size})
+          for (var i = 0; i < specResults.length; i++) {
+            var expectations = specResults[i].failedExpectations;
+            if (specResults[i].passedExpectations) {
+              expectations = expectations.concat(specResults[i].passedExpectations);
+            }
+            for (var j = 0; j < expectations.length; j++) {
+              var expectation = expectations[j];
+              try { JSON.stringify(expectation.expected); } catch (e) { expectation.expected = '<circular expected>'; }
+              try { JSON.stringify(expectation.actual); } catch (e) { expectation.actual = '<circular actual>'; }
+            }
+          }
+          return specResults;
+        JS
+        Jasmine::Result.map_raw_results(slice)
+      end
     end
   end
 end

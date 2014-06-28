@@ -10,7 +10,7 @@ describe "Configuring jasmine" do
     let(:config) { { 'selenium_server' => 'http://example.com/selenium/stuff' }}
 
     it "make a webdriver pointing to the custom server" do
-      Selenium::WebDriver.should_receive(:for).with(:remote, hash_including(url: 'http://example.com/selenium/stuff'))
+      expect(Selenium::WebDriver).to receive(:for).with(:remote, hash_including(url: 'http://example.com/selenium/stuff'))
       configurer.make_runner
     end
   end
@@ -20,8 +20,8 @@ describe "Configuring jasmine" do
 
     it "should create a firebug profile and pass that to WebDriver" do
       profile = double(:profile, enable_firebug: nil)
-      Selenium::WebDriver::Firefox::Profile.stub(:new).and_return(profile)
-      Selenium::WebDriver.should_receive(:for).with('firefox-firebug'.to_sym, {profile: profile})
+      allow(Selenium::WebDriver::Firefox::Profile).to receive(:new).and_return(profile)
+      expect(Selenium::WebDriver).to receive(:for).with('firefox-firebug'.to_sym, {profile: profile})
       configurer.make_runner
     end
   end
@@ -32,17 +32,17 @@ describe "Configuring jasmine" do
     end
 
     def configure
-      Dir.stub(:pwd).and_return(working_dir)
-      Jasmine.stub(:configure).and_yield(fake_config)
+      allow(Dir).to receive(:pwd).and_return(working_dir)
+      allow(Jasmine).to receive(:configure).and_yield(fake_config)
       JasmineSeleniumRunner::ConfigureJasmine.install_selenium_runner
     end
 
     def stub_config_file(config_obj)
       config_path = File.join(working_dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml')
-      File.stub(:exist?).and_call_original
-      File.stub(:exist?).with(config_path).and_return(true)
-      File.stub(:read).and_call_original
-      File.stub(:read).with(config_path).and_return(YAML.dump(config_obj))
+      allow(File).to receive(:exist?).and_call_original
+      allow(File).to receive(:exist?).with(config_path).and_return(true)
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with(config_path).and_return(YAML.dump(config_obj))
     end
 
     let(:working_dir) { 'hi' }
@@ -64,8 +64,8 @@ describe "Configuring jasmine" do
     end
 
     it "should use the custom class" do
-      Selenium::WebDriver.should_not_receive(:for)
-      Foo::Bar.any_instance.should_receive(:make_runner)
+      expect(Selenium::WebDriver).not_to receive(:for)
+      expect_any_instance_of(Foo::Bar).to receive(:make_runner)
       fake_config.runner.call(nil, nil)
     end
   end
