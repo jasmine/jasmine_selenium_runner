@@ -21,7 +21,9 @@ module JasmineSeleniumRunner
     end
 
     def self.load_config
-      filepath = File.join(Dir.pwd, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml')
+      filepath = ENV['JASMINE_SELENIUM_CONFIG_PATH']
+      filepath ||= File.join(Dir.pwd, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml')
+
       if File.exist?(filepath)
         YAML::load(ERB.new(File.read(filepath)).result(binding))
       else

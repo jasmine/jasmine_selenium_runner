@@ -37,8 +37,8 @@ describe "Configuring jasmine" do
       JasmineSeleniumRunner::ConfigureJasmine.install_selenium_runner
     end
 
-    def stub_config_file(config_obj)
-      config_path = File.join(working_dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml')
+    def stub_config_file(config_obj, config_path=nil)
+      config_path ||= File.join(working_dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml')
       allow(File).to receive(:exist?).and_call_original
       allow(File).to receive(:exist?).with(config_path).and_return(true)
       allow(File).to receive(:read).and_call_original
@@ -58,15 +58,35 @@ describe "Configuring jasmine" do
       end
     end
 
-    before do
-      stub_config_file 'configuration_class' => 'Foo::Bar'
-      configure
+    context 'with the default config file location' do
+      before do
+        stub_config_file 'configuration_class' => 'Foo::Bar'
+        configure
+      end
+
+      it "should use the custom class" do
+        expect(Selenium::WebDriver).not_to receive(:for)
+        expect_any_instance_of(Foo::Bar).to receive(:make_runner)
+        fake_config.runner.call(nil, nil)
+      end
     end
 
-    it "should use the custom class" do
-      expect(Selenium::WebDriver).not_to receive(:for)
-      expect_any_instance_of(Foo::Bar).to receive(:make_runner)
-      fake_config.runner.call(nil, nil)
+    context 'with a custom config file path' do
+      before do
+        stub_config_file({ 'configuration_class' => 'Foo::Bar' }, '/tmp/config.yml')
+        ENV['JASMINE_SELENIUM_CONFIG_PATH'] = '/tmp/config.yml'
+        configure
+      end
+
+      after do
+        ENV.delete 'JASMINE_SELENIUM_CONFIG_PATH'
+      end
+
+      it "should use the custom class" do
+        expect(Selenium::WebDriver).not_to receive(:for)
+        expect_any_instance_of(Foo::Bar).to receive(:make_runner)
+        fake_config.runner.call(nil, nil)
+      end
     end
   end
 end
