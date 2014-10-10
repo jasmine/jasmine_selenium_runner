@@ -50,23 +50,33 @@ module Jasmine
       def get_results
         index = 0
         spec_results = []
+        failed_suite_results = []
 
         loop do
-          slice = results_without_circular_references(index)
+          slice = results_without_circular_references('spec', index)
           spec_results << slice
           index += result_batch_size
           break if slice.size < result_batch_size
         end
-        spec_results.flatten
+
+        index = 0
+        loop do
+          slice = results_without_circular_references('suite', index)
+          failed_suite_results << slice.select(&:failed?)
+          index += result_batch_size
+          break if slice.size < result_batch_size
+        end
+
+        spec_results.flatten + failed_suite_results.flatten
       end
 
-      def results_without_circular_references(starting_index)
+      def results_without_circular_references(result_type, starting_index)
         slice = driver.execute_script(<<-JS)
-          var specResults = jsApiReporter.specResults(#{starting_index}, #{result_batch_size})
-          for (var i = 0; i < specResults.length; i++) {
-            var expectations = specResults[i].failedExpectations;
-            if (specResults[i].passedExpectations) {
-              expectations = expectations.concat(specResults[i].passedExpectations);
+          var results = jsApiReporter.#{result_type}Results(#{starting_index}, #{result_batch_size})
+          for (var i = 0; i < results.length; i++) {
+            var expectations = results[i].failedExpectations;
+            if (results[i].passedExpectations) {
+              expectations = expectations.concat(results[i].passedExpectations);
             }
             for (var j = 0; j < expectations.length; j++) {
               var expectation = expectations[j];
@@ -74,7 +84,7 @@ module Jasmine
               try { JSON.stringify(expectation.actual); } catch (e) { expectation.actual = '<circular actual>'; }
             }
           }
-          return specResults;
+          return results;
         JS
         Jasmine::Result.map_raw_results(slice)
       end
