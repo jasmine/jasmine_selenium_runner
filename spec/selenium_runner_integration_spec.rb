@@ -75,6 +75,7 @@ GEMFILE
       File.open(File.join(dir, 'Gemfile'), 'w') do |file|
         file.write <<-GEMFILE
 source 'https://rubygems.org'
+gem 'sauce-connect'
 gem 'jasmine_selenium_runner', :path => '#{project_root}'
 gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
 gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'

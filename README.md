@@ -35,6 +35,11 @@ You'll want your .travis.yml file to look like the following:
 
 ### Using SauceLabs w/ Travis to run in multiple browsers:
 
+As part of the BeBanjo fork we decided to make a gem lighter so we didn't include SauceLabs gem dependencies by default.
+If you're going to use SauceLabs you need to add the following gem to the Gemfile
+
+    gem 'sauce-connect'
+
 Create a jasmine_selenium_runner.yml in spec/javascripts/support/ with the following content:
 
     ---
