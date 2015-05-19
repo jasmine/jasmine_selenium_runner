@@ -1,7 +1,8 @@
 before_script:
 - sh -e /etc/init.d/xvfb start
-- curl -L https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 script: DISPLAY=:99.0 bundle exec rake
+addons:
+  sauce_connect: true
 rvm:
 - 2.0.0
 env:
