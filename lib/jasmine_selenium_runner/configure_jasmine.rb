@@ -1,5 +1,6 @@
 require 'jasmine'
 require 'jasmine/runners/selenium'
+require 'jasmine_selenium_runner/sauce_connect_configurer'
 require 'selenium-webdriver'
 
 module JasmineSeleniumRunner
@@ -57,8 +58,9 @@ module JasmineSeleniumRunner
 
     def sauce_webdriver(sauce_config)
       unless sauce_config['tunnel_identifier']
-        require 'sauce/connect'
-        Sauce::Connect.connect!
+        SauceConnectConfigurer.config do |config|
+          config[:sauce_connect_4_executable] = sauce_config.fetch('sauce_connect_path')
+        end
       end
 
       username = sauce_config.fetch('username')

@@ -3,6 +3,7 @@ require 'tmpdir'
 require 'jasmine'
 require 'json'
 require 'net/http'
+require 'bundler'
 
 describe Jasmine::Runners::Selenium do
   let(:file_helper) { FileHelper.new }
@@ -99,6 +100,7 @@ sauce:
     - #{ENV['TRAVIS_RUBY_VERSION'] || RUBY_VERSION}
     - CI
   tunnel_identifier: #{ENV['TRAVIS_JOB_NUMBER'] ? %Q("#{ENV['TRAVIS_JOB_NUMBER']}") : nil}
+  sauce_connect_path: #{ENV['SAUCE_CONNECT_PATH']}
   os: "Windows 8"
   browser_version: 10
 YAML
