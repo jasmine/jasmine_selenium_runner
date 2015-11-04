@@ -16,7 +16,7 @@ module Jasmine
         wait_for_suites_to_finish_running
 
         formatter.format(get_results)
-        formatter.done
+        formatter.done(run_details)
       ensure
         driver.quit
       end
@@ -30,6 +30,10 @@ module Jasmine
 
       def finished?
         driver.execute_script "return jsApiReporter && jsApiReporter.finished"
+      end
+
+      def run_details
+        driver.execute_script "return jsApiReporter && jsApiReporter.runDetails"
       end
 
       def ensure_connection_established

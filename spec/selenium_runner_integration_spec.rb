@@ -71,6 +71,33 @@ GEMFILE
     end
   end
 
+  it "reports random jasmine runs" do
+    in_temp_dir do |dir, project_root|
+      File.open(File.join(dir, 'Gemfile'), 'w') do |file|
+        file.write <<-GEMFILE
+source 'https://rubygems.org'
+gem 'jasmine_selenium_runner', :path => '#{project_root}'
+gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
+gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'
+GEMFILE
+      end
+      Bundler.with_clean_env do
+        `bundle`
+        `bundle exec jasmine init`
+        `bundle exec jasmine examples`
+        yaml_file = File.join(dir, 'spec', 'javascripts', 'support', 'jasmine.yml')
+        jasmine_yaml = YAML.load_file(yaml_file)
+        jasmine_yaml['random'] = true
+        File.open(yaml_file, 'w') do |file|
+          file.write(YAML.dump(jasmine_yaml))
+          file.flush
+        end
+        ci_output = `bundle exec rake -E "require 'jasmine_selenium_runner'" --trace jasmine:ci`
+        expect(ci_output).to match(/Randomized with seed/)
+      end
+    end
+  end
+
   it "permits rake jasmine:ci task to be run using Sauce", :sauce => true do
     in_temp_dir do |dir, project_root|
       File.open(File.join(dir, 'Gemfile'), 'w') do |file|
