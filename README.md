@@ -86,6 +86,18 @@ which you'll want for SAUCE_USERNAME and SAUCE_ACCESS_KEY):
         - SAUCE_OS="Linux"
         - SAUCE_BROWSER_VERSION=''
 
+### Using with sauce connect locally
+
+Sauce connect 4 now requires a path to the `sc` executable, so that needs to be provided if you want to use SauceLabs without a pre-existing tunnel.
+In your jasmine_selenium_runner.yml, in the sauce section, you need to provide a `sauce_connect_path`.
+
+    ---
+    use_sauce: true
+    sauce:
+      sauce_connect_path: /my/path/to/sc
+
+This configuration will only be used if no `tunnel_identifier` is provided.
+
 ### Using with a custom selenium server
 
 Create a jasmine_selenium_runner.yml in spec/javascripts/support/ with the following content:
