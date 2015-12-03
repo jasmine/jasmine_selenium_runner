@@ -1,7 +1,7 @@
 module Jasmine
   module Runners
     class Selenium
-      VERSION = "0.2.1"
+      VERSION = "2.4.0"
     end
   end
 end
