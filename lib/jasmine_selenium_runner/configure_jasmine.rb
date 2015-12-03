@@ -58,7 +58,7 @@ module JasmineSeleniumRunner
 
     def sauce_webdriver(sauce_config)
       unless sauce_config['tunnel_identifier']
-        SauceConnectConfigurer.config do |config|
+        SauceConnectConfigurer.configure do |config|
           config[:sauce_connect_4_executable] = sauce_config.fetch('sauce_connect_path')
         end
       end
