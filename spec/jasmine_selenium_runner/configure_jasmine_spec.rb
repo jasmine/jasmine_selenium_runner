@@ -94,7 +94,7 @@ describe "Configuring jasmine" do
     before do
       allow(Selenium::WebDriver).to receive(:for) { mock_driver }
       allow(Jasmine::Runners::Selenium).to receive(:new)
-      allow(JasmineSeleniumRunner::SauceConnectConfigurer).to receive(:config).and_yield(sauce_config)
+      allow(JasmineSeleniumRunner::SauceConnectConfigurer).to receive(:configure).and_yield(sauce_config)
     end
 
     let(:sauce_thing) { double(:sauce_thing) }
@@ -121,7 +121,7 @@ describe "Configuring jasmine" do
 
         runner.make_runner
 
-        expect(JasmineSeleniumRunner::SauceConnectConfigurer).not_to have_received(:config)
+        expect(JasmineSeleniumRunner::SauceConnectConfigurer).not_to have_received(:configure)
         expect(Selenium::WebDriver).to have_received(:for).with(:remote,
                                                                 :url => 'http://sauce_user:sauce_key@localhost:4445/wd/hub',
                                                                 :desired_capabilities => {
@@ -156,7 +156,7 @@ describe "Configuring jasmine" do
 
         runner.make_runner
 
-        expect(JasmineSeleniumRunner::SauceConnectConfigurer).to have_received(:config)
+        expect(JasmineSeleniumRunner::SauceConnectConfigurer).to have_received(:configure)
         expect(sauce_config).to have_received(:[]=).with(:sauce_connect_4_executable, '/path/to/sc')
         expect(Selenium::WebDriver).to have_received(:for).with(:remote,
                                                                 :url => 'http://sauce_user:sauce_key@localhost:4445/wd/hub',
