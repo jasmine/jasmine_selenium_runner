@@ -48,7 +48,7 @@ Create a jasmine_selenium_runner.yml in spec/javascripts/support/ with the follo
       tags:
         - <%= ENV['TRAVIS_RUBY_VERSION'] || RUBY_VERSION %>
         - CI
-      tunnel_identifier: <%= ENV['TRAVIS_JOB_NUMBER'] ? "#{ENV['TRAVIS_JOB_NUMBER']}" : nil %>
+      tunnel_identifier: <%= ENV['TRAVIS_JOB_NUMBER'] ? "'#{ENV['TRAVIS_JOB_NUMBER']}'" : nil %>
       os: <%= ENV['SAUCE_OS'] %>
       browser_version: <%= ENV['SAUCE_BROWSER_VERSION'] %>
 
