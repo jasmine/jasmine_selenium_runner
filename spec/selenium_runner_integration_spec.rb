@@ -13,8 +13,8 @@ describe Jasmine::Runners::Selenium do
         file.write <<-GEMFILE
 source 'https://rubygems.org'
 gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'
+gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
+gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
@@ -34,8 +34,8 @@ GEMFILE
         file.write <<-GEMFILE
 source 'https://rubygems.org'
 gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'
+gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
+gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
@@ -55,8 +55,8 @@ GEMFILE
         file.write <<-GEMFILE
 source 'https://rubygems.org'
 gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'
+gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
+gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
@@ -77,8 +77,8 @@ GEMFILE
         file.write <<-GEMFILE
 source 'https://rubygems.org'
 gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'
+gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
+gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
@@ -104,8 +104,8 @@ GEMFILE
         file.write <<-GEMFILE
 source 'https://rubygems.org'
 gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'
+gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
+gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
@@ -171,8 +171,8 @@ YAML
       `rails new rails-test`
       Dir.chdir File.join(dir, 'rails-test')
       File.open('Gemfile', 'a') { |f|
-        f.puts "gem 'jasmine', :git => 'https://github.com/pivotal/jasmine-gem.git'"
-        f.puts "gem 'jasmine-core', :git => 'https://github.com/pivotal/jasmine.git'"
+        f.puts "gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'"
+        f.puts "gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'"
         f.puts "gem 'jasmine_selenium_runner', :path => '#{project_root}'"
       }
 
