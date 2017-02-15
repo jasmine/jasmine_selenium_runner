@@ -18,7 +18,7 @@ gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
-        `bundle`
+        bundle_install
         `bundle exec jasmine init`
         `bundle exec jasmine examples`
         FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), File.join(dir, 'spec', 'javascripts'))
@@ -39,7 +39,7 @@ gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
-        `bundle`
+        bundle_install
         `bundle exec jasmine init`
         `bundle exec jasmine examples`
         FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'contains_circular_references_spec.js'), File.join(dir, 'spec', 'javascripts'))
@@ -60,7 +60,7 @@ gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
-        `bundle`
+        bundle_install
         `bundle exec jasmine init`
         `bundle exec jasmine examples`
         FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'after_all_failure_spec.js'), File.join(dir, 'spec', 'javascripts'))
@@ -82,7 +82,7 @@ gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
-        `bundle`
+        bundle_install
         `bundle exec jasmine init`
         `bundle exec jasmine examples`
         yaml_file = File.join(dir, 'spec', 'javascripts', 'support', 'jasmine.yml')
@@ -109,7 +109,7 @@ gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
 GEMFILE
       end
       Bundler.with_clean_env do
-        `bundle`
+        bundle_install
         `bundle exec jasmine init`
         `bundle exec jasmine examples`
         File.open(File.join(dir, 'spec', 'javascripts', 'support', 'jasmine_selenium_runner.yml'), 'w') do |file|
@@ -153,19 +153,6 @@ YAML
     end
   end
 
-  def bundle_install
-    tries_remaining = 3
-    while tries_remaining > 0
-      puts `NOKOGIRI_USE_SYSTEM_LIBRARIES=true bundle install --path vendor;`
-      if $?.success?
-        tries_remaining = 0
-      else
-        tries_remaining -= 1
-        puts "\n\nBundle failed, trying #{tries_remaining} more times\n\n"
-      end
-    end
-  end
-
   it "works with the rails asset pipeline" do
     in_temp_dir do |dir, project_root|
       `rails new rails-test`
@@ -185,6 +172,10 @@ YAML
         expect(output).to match(/[1-9]\d* specs, 0 failures/)
       end
     end
+  end
+
+  def bundle_install
+    puts `NOKOGIRI_USE_SYSTEM_LIBRARIES=true bundle install --jobs=3 --retry=3 --path vendor;`
   end
 end
 
