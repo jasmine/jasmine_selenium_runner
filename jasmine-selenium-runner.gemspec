@@ -6,8 +6,8 @@ require 'jasmine/runners/selenium/version'
 Gem::Specification.new do |spec|
   spec.name          = "jasmine_selenium_runner"
   spec.version       = Jasmine::Runners::Selenium::VERSION
-  spec.authors       = ["Rajan Agaskar", "Gregg Van Hove" ]
-  spec.email         = ["rajan@pivotallabs.com", 'gvanhove@pivotallabs.com']
+  spec.authors       = ["Gregg Van Hove" ]
+  spec.email         = ['gvanhove@pivotal.io']
   spec.description   = %q{Run your jasmine tests in a real live browser!}
   spec.summary       = %q{Run your jasmine tests in a real live browser!}
   spec.homepage         = "http://pivotal.github.com/jasmine/"
