@@ -136,41 +136,5 @@ describe "Configuring jasmine" do
                                                                )
       end
     end
-
-    context 'without an existing tunnel' do
-      it 'uses sauce connect' do
-        runner = JasmineSeleniumRunner::ConfigureJasmine.new(double(:formatter), 'jasmine_url', {
-          'use_sauce' => true,
-          'sauce' => {
-            'username' => 'sauce_user',
-            'access_key' => 'sauce_key',
-            'name' => 'sauce_name',
-            'os' => 'sauce_os',
-            'browser_version' => 'browser_version',
-            'build' => 'build',
-            'tags' => 'tags',
-            'sauce_connect_path' => '/path/to/sc'
-          }
-        })
-
-
-        runner.make_runner
-
-        expect(JasmineSeleniumRunner::SauceConnectConfigurer).to have_received(:configure)
-        expect(sauce_config).to have_received(:[]=).with(:sauce_connect_4_executable, '/path/to/sc')
-        expect(Selenium::WebDriver).to have_received(:for).with(:remote,
-                                                                :url => 'http://sauce_user:sauce_key@localhost:4445/wd/hub',
-                                                                :desired_capabilities => {
-                                                                  :name => 'sauce_name',
-                                                                  :platform => 'sauce_os',
-                                                                  :version => 'browser_version',
-                                                                  :build => 'build',
-                                                                  :tags => 'tags',
-                                                                  :browserName => 'firefox',
-                                                                  'tunnel-identifier' => nil
-                                                                }
-                                                               )
-      end
-    end
   end
 end

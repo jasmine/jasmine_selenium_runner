@@ -57,12 +57,6 @@ module JasmineSeleniumRunner
     end
 
     def sauce_webdriver(sauce_config)
-      unless sauce_config['tunnel_identifier']
-        SauceConnectConfigurer.configure do |config|
-          config[:sauce_connect_4_executable] = sauce_config.fetch('sauce_connect_path')
-        end
-      end
-
       username = sauce_config.fetch('username')
       key = sauce_config.fetch('access_key')
       driver_url = "http://#{username}:#{key}@localhost:4445/wd/hub"
