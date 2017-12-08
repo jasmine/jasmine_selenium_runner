@@ -6,6 +6,7 @@ before_script:
 script: DISPLAY=:99.0 bundle exec rake
 addons:
   sauce_connect: true
+  firefox: latest
 rvm:
 - 2.3.1
 env:
