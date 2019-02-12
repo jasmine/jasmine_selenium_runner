@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['gvanhove@pivotal.io']
   spec.description   = %q{Run your jasmine tests in a real live browser!}
   spec.summary       = %q{Run your jasmine tests in a real live browser!}
-  spec.homepage         = "http://pivotal.github.com/jasmine/"
+  spec.homepage      = "https://github.com/jasmine/jasmine_selenium_runner"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
