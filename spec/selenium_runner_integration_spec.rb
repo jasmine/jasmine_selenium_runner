@@ -9,14 +9,7 @@ describe Jasmine::Runners::Selenium do
   let(:file_helper) { FileHelper.new }
   it "permits rake jasmine:ci task to be run using Selenium" do
     in_temp_dir do |dir, project_root|
-      File.open(File.join(dir, 'Gemfile'), 'w') do |file|
-        file.write <<-GEMFILE
-source 'https://rubygems.org'
-gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
-GEMFILE
-      end
+      write_gemfile dir, project_root
       Bundler.with_clean_env do
         bundle_install
         `bundle exec jasmine init`
@@ -30,14 +23,7 @@ GEMFILE
 
   it "allows rake jasmine:ci to retrieve results even though Selenium can't transmit back circular JS objects" do
     in_temp_dir do |dir, project_root|
-      File.open(File.join(dir, 'Gemfile'), 'w') do |file|
-        file.write <<-GEMFILE
-source 'https://rubygems.org'
-gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
-GEMFILE
-      end
+      write_gemfile dir, project_root
       Bundler.with_clean_env do
         bundle_install
         `bundle exec jasmine init`
@@ -51,14 +37,7 @@ GEMFILE
 
   it "reports failures in afterAll" do
     in_temp_dir do |dir, project_root|
-      File.open(File.join(dir, 'Gemfile'), 'w') do |file|
-        file.write <<-GEMFILE
-source 'https://rubygems.org'
-gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
-GEMFILE
-      end
+      write_gemfile dir, project_root
       Bundler.with_clean_env do
         bundle_install
         `bundle exec jasmine init`
@@ -73,14 +52,7 @@ GEMFILE
 
   it "reports random jasmine runs" do
     in_temp_dir do |dir, project_root|
-      File.open(File.join(dir, 'Gemfile'), 'w') do |file|
-        file.write <<-GEMFILE
-source 'https://rubygems.org'
-gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
-GEMFILE
-      end
+      write_gemfile dir, project_root
       Bundler.with_clean_env do
         bundle_install
         `bundle exec jasmine init`
@@ -100,14 +72,7 @@ GEMFILE
 
   it "permits rake jasmine:ci task to be run using Sauce", :sauce => true do
     in_temp_dir do |dir, project_root|
-      File.open(File.join(dir, 'Gemfile'), 'w') do |file|
-        file.write <<-GEMFILE
-source 'https://rubygems.org'
-gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
-GEMFILE
-      end
+      write_gemfile dir, project_root
       Bundler.with_clean_env do
         bundle_install
         `bundle exec jasmine init`
@@ -155,7 +120,7 @@ YAML
 
   it "works with the rails asset pipeline" do
     in_temp_dir do |dir, project_root|
-      `rails new rails-test`
+      `rails new rails-test --skip-spring --skip-bundle`
       Dir.chdir File.join(dir, 'rails-test')
       File.open('Gemfile', 'a') { |f|
         f.puts "gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'"
@@ -171,6 +136,17 @@ YAML
         output = `bundle exec rake jasmine:ci`
         expect(output).to match(/[1-9]\d* specs, 0 failures/)
       end
+    end
+  end
+
+  def write_gemfile(dir, project_root)
+    File.open(File.join(dir, 'Gemfile'), 'a') do |file|
+      file.write <<-GEMFILE
+source 'https://rubygems.org'
+gem 'jasmine_selenium_runner', :path => '#{project_root}'
+gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
+gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
+      GEMFILE
     end
   end
 
