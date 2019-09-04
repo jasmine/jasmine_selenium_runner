@@ -6,8 +6,8 @@ before_install:
   - mkdir geckodriver
   - tar -xzf geckodriver-v0.24.0-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
-before_script:
-- sh -e /etc/init.d/xvfb start
+services:
+  - xvfb
 script: DISPLAY=:99.0 bundle exec rake
 addons:
   sauce_connect: true
