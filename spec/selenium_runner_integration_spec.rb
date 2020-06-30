@@ -123,8 +123,8 @@ YAML
       `rails new rails-test --skip-spring --skip-bundle`
       Dir.chdir File.join(dir, 'rails-test')
       File.open('Gemfile', 'a') { |f|
-        f.puts "gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'"
-        f.puts "gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'"
+        f.puts "gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git', :branch => 'main'"
+        f.puts "gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git', :branch => 'main'"
         f.puts "gem 'jasmine_selenium_runner', :path => '#{project_root}'"
       }
 
@@ -132,7 +132,9 @@ YAML
         bundle_install
         `bundle exec rails g jasmine:install`
         `bundle exec rails g jasmine:examples`
-        FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), File.join(dir, 'rails-test', 'spec', 'javascripts'))
+        dest = File.join(dir, 'rails-test', 'spec', 'javascripts')
+        FileUtils.mkdir_p(dest)
+        FileUtils.cp(File.join(project_root, 'spec', 'fixtures', 'is_in_firefox_spec.js'), dest)
         output = `bundle exec rake jasmine:ci`
         expect(output).to match(/[1-9]\d* specs, 0 failures/)
       end
@@ -144,8 +146,8 @@ YAML
       file.write <<-GEMFILE
 source 'https://rubygems.org'
 gem 'jasmine_selenium_runner', :path => '#{project_root}'
-gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git'
-gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git'
+gem 'jasmine', :git => 'https://github.com/jasmine/jasmine-gem.git', :branch => 'main'
+gem 'jasmine-core', :git => 'https://github.com/jasmine/jasmine.git', :branch => 'main'
       GEMFILE
     end
   end
