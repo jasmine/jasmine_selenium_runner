@@ -59,7 +59,7 @@ module JasmineSeleniumRunner
     def sauce_webdriver(sauce_config)
       username = sauce_config.fetch('username')
       key = sauce_config.fetch('access_key')
-      driver_url = "http://#{username}:#{key}@localhost:4445/wd/hub"
+      driver_url = "http://#{username}:#{key}@ondemand.saucelabs.com/wd/hub"
 
       capabilities = {
         :name => sauce_config['name'],

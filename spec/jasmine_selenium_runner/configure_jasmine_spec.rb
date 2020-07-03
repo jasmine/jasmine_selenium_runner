@@ -123,7 +123,7 @@ describe "Configuring jasmine" do
 
         expect(JasmineSeleniumRunner::SauceConnectConfigurer).not_to have_received(:configure)
         expect(Selenium::WebDriver).to have_received(:for).with(:remote,
-                                                                :url => 'http://sauce_user:sauce_key@localhost:4445/wd/hub',
+                                                                :url => 'http://sauce_user:sauce_key@ondemand.saucelabs.com/wd/hub',
                                                                 :desired_capabilities => {
                                                                   :name => 'sauce_name',
                                                                   :platform => 'sauce_os',
