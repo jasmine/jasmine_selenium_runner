@@ -1,4 +1,4 @@
-# Jasmine Selenium Runner [![Build Status](https://travis-ci.org/jasmine/jasmine_selenium_runner.png?branch=main)](https://travis-ci.org/jasmine/jasmine_selenium_runner)
+# Jasmine Selenium Runner [![Build Status](https://travis-ci.com/jasmine/jasmine_selenium_runner.png?branch=main)](https://travis-ci.com/jasmine/jasmine_selenium_runner)
 
 Runner for building Jasmine builds in Selenium (permitting automatic cross-browser testing).
 After require-ing, jasmine_selenium_runner automatically sets itself up as the jasmine:ci runner.
