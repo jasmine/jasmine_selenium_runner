@@ -14,5 +14,5 @@ jobs:
           command: "echo 'Ruby version:' && ruby -v && echo 'Bundler version:' && bundle -v"
       - ruby/bundle-install
       - run:
-        name: Run tests
-        command: "bundle exec rake --trace"
+          name: Run tests
+          command: "bundle exec rake --trace"
