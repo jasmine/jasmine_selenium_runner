@@ -3,10 +3,10 @@
 Runner for building Jasmine builds in Selenium (permitting automatic cross-browser testing).
 After require-ing, jasmine_selenium_runner automatically sets itself up as the jasmine:ci runner.
 
-## Deprecated
+## Discontinued
 
-The `jasmine_selenium_runner` gem is deprecated. There will be no further
-releases after the end of the Jasmine 3.x series. We recommend migrating to the 
+The `jasmine_selenium_runner` gem is discontinued. There will be no further
+releases. We recommend migrating to the 
 [jasmine-browser-runner](https://github.com/jasmine/jasmine-browser) npm package.
 
 ## Installation
